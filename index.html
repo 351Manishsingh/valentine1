@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>M💗🫶M — Be My Valentine ❤️</title>
+
+<style>
+  body {
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #ff6a88, #ff99ac);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+  }
+
+  .box {
+    background: white;
+    padding: 35px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 5;
+  }
+
+  h1 {
+    color: #ff2f6e;
+    margin-bottom: 25px;
+  }
+
+  button {
+    padding: 15px 35px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+  }
+
+  #yes {
+    background: #ff2f6e;
+    color: white;
+  }
+
+  #no {
+    background: #e0e0e0;
+    position: absolute;
+  }
+
+  .bg-image {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    display: none;
+    z-index: -1;
+  }
+
+  .love-text {
+    font-size: 42px;
+    color: white;
+    animation: pulse 1s infinite alternate;
+    text-shadow: 0 0 20px rgba(255,0,80,0.8);
+  }
+
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
+  }
+
+  /* FALLING HEARTS */
+  .falling-heart {
+    position: fixed;
+    top: -10%;
+    color: rgba(255,255,255,0.9);
+    font-size: 18px;
+    animation: fall linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh);
+      opacity: 0;
+    }
+  }
+
+  /* HEART BURST */
+  .burst-heart {
+    position: fixed;
+    font-size: 20px;
+    animation: burst 1.5s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes burst {
+    0% { transform: scale(0); opacity: 1; }
+    100% {
+      transform: translate(var(--x), var(--y)) scale(1.8);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="bg-image" id="bg"></div>
+
+<div class="box" id="box">
+  <h1>M💗🫶M — Will you be my Valentine? 💖</h1>
+  <button id="yes" onclick="yesClicked()">YES ❤️</button>
+  <button id="no" ontouchstart="moveNo()" onmouseover="moveNo()">NO 😜</button>
+</div>
+
+<audio id="music" src="love.mp3"></audio>
+
+<script>
+  /* MOVE NO BUTTON */
+  function moveNo() {
+    const noBtn = document.getElementById("no");
+    const x = Math.random() * 80;
+    const y = Math.random() * 80;
+    noBtn.style.left = x + "vw";
+    noBtn.style.top = y + "vh";
+  }
+
+  /* CONTINUOUS FALLING HEARTS */
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "falling-heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 12 + 14 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 5 + "s";
+
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+  }, 500);
+
+  /* HEART BURST */
+  function heartBurst() {
+    for (let i = 0; i < 40; i++) {
+      const heart = document.createElement("div");
+      heart.className = "burst-heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = "50%";
+      heart.style.top = "50%";
+
+      heart.style.setProperty("--x", (Math.random() - 0.5) * 600 + "px");
+      heart.style.setProperty("--y", (Math.random() - 0.5) * 600 + "px");
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1500);
+    }
+  }
+
+  /* YES CLICK */
+  function yesClicked() {
+    const bg = document.getElementById("bg");
+    bg.style.backgroundImage = "url('couple.jpg')";
+    bg.style.display = "block";
+
+    const music = document.getElementById("music");
+    music.volume = 0.8;
+    music.play();
+
+    heartBurst();
+
+    document.getElementById("box").innerHTML = `
+      <div class="love-text">
+        I love you my love ❤️<br>
+        M💗🫶M
+      </div>
+      <p style="color:white; font-size:20px; margin-top:15px;">
+        Forever & Always 💕
+      </p>
+    `;
+  }
+</script>
+
+</body>
+</html>
